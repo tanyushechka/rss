@@ -1,0 +1,5 @@
+{
+  "require": {
+    "fastfeed/fastfeed": "dev-master"
+  }
+}
