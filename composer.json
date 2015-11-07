@@ -1,5 +1,6 @@
 {
   "require": {
+    "upwork/php-upwork": "dev-master",
     "fastfeed/fastfeed": "dev-master",
     "guzzlehttp/guzzle": "*",
     "monolog/monolog": "^1.17"

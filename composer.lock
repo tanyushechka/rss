@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "873a606d0226e876edd82e05c1d0ad90",
-    "content-hash": "e3f73c2af9aca8e7a40941d135953ddf",
+    "hash": "0a7bde4fac9c5d8397c714241e8db4f8",
+    "content-hash": "d837c591c223d485ea6d1ab1af0353ad",
     "packages": [
         {
             "name": "desarrolla2/cache",
@@ -759,6 +759,61 @@
             "time": "2015-10-11 09:39:48"
         },
         {
+            "name": "upwork/php-upwork",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/upwork/php-upwork.git",
+                "reference": "333592ee76cd170db4c438267cf7ebf7141ad159"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/upwork/php-upwork/zipball/333592ee76cd170db4c438267cf7ebf7141ad159",
+                "reference": "333592ee76cd170db4c438267cf7ebf7141ad159",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/php-invoker": "*",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "suggest": {
+                "ext-oauth": "This extension from PECL provides OAuth consumer and provider bindings. See more under http://www.php.net/oauth"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Upwork\\API": "src/"
+                },
+                "files": [
+                    "src/Upwork/API/constants.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Maksym Novozhylov",
+                    "email": "mnovozhilov@upwork.com",
+                    "homepage": "http://mnov.tel",
+                    "role": "Software Engineer, Platform/Integrity"
+                }
+            ],
+            "description": "PHP bindings for Upwork API",
+            "homepage": "http://www.upwork.com",
+            "keywords": [
+                "api",
+                "php",
+                "upwork"
+            ],
+            "time": "2015-10-12 06:48:22"
+        },
+        {
             "name": "zendframework/zend-diactoros",
             "version": "1.1.4",
             "source": {
@@ -813,6 +868,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "upwork/php-upwork": 20,
         "fastfeed/fastfeed": 20
     },
     "prefer-stable": false,
