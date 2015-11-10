@@ -32,27 +32,27 @@ $items = $fastFeed->fetch('upwork');
 foreach ($items as $key => $item) {
     $itemId = $item->getId();
     $jobId = '~' . explode('?source=rss', explode('_%7E', $itemId)[1])[0];
-    $specification = $profile->getSpecific($jobId);
-    $specific = $specification->profile;
+    $specific = $profile->getSpecific($jobId);
+    $info = $specific->profile;
     $skillsArr = [];
-    if ($specific->op_required_skills &&
-        $specific->op_required_skills->op_required_skill) {
-        $skills = $specific->op_required_skills->op_required_skill;
+    if ($info->op_required_skills &&
+        $info->op_required_skills->op_required_skill) {
+        $skills = $info->op_required_skills->op_required_skill;
         foreach ($skills as $skill) {
-            array_push($skillsArr, $skill->skill);
+            array_push($skillsArr, $skill->skill);   //todo - function for work with array
         }
     }
     $row = new stdClass;
     $row->id = $jobId;
     $row->url = $itemId;
-    $row->created_at = $specific->op_ctime;
-    $row->title = $specific->op_title;
-    $row->description = $specific->op_description;
-    $row->type = $specific->job_type;
-    $row->budget = $specific->amount;
-    $row->engagement = $specific->op_engagement;
-    $row->engagement_weeks = $specific->op_engagement_weeks;
-    $row->contractor_tier = $specific->op_contractor_tier;
+    $row->created_at = $info->op_ctime;
+    $row->title = $info->op_title;
+    $row->description = $info->op_description;
+    $row->type = $info->job_type;
+    $row->budget = $info->amount;
+    $row->engagement = $info->op_engagement;
+    $row->engagement_weeks = $info->op_engagement_weeks;
+    $row->contractor_tier = $info->op_contractor_tier;
     $row->skills = implode(', ', $skillsArr);
     var_dump($row);
 }
