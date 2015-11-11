@@ -26,8 +26,7 @@ class Rss
     {
         $class = static::class;
         $sql = 'SELECT * FROM rss WHERE id = :id';
-        $res = $db->dbSelect($class, $sql, [':id' => $id])[0];
-        return $res;
+        return $db->dbSelect($class, $sql, [':id' => $id])[0];
     }
 
     public function insert($db)
@@ -41,6 +40,8 @@ class Rss
             $data[':' . $property] = $this->$property;
         }
         $sql = 'INSERT INTO rss (' . implode(', ', $columns) . ') VALUES (' . implode(', ', $places) . ')';
+        var_dump($sql);
+        var_dump($data);
         return $db->dbExecute($sql, $data);
     }
 

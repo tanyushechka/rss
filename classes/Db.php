@@ -8,7 +8,7 @@ class Db
     public function __construct($config)
     {
         $dsn = 'mysql:dbname=' . $config->dbname . ';host=' . $config->host;
-        $this->dbh = new PDO($dsn, $config->user, $config->password);
+        $this->dbh = new \PDO($dsn, $config->user, $config->password);
     }
 
 

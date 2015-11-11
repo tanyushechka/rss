@@ -40,7 +40,8 @@ foreach ($items as $key => $item) {
     $itemId = $item->getId();
     $jobId = '~' . explode('?source=rss', explode('_%7E', $itemId)[1])[0];
     $res = Rss::findOne($db, $jobId);
-    if (empty($res)) {
+
+    if (!isset($res)) {
         $specific = $profile->getSpecific($jobId);
         $info = $specific->profile;
         $skillsArr = [];
@@ -57,7 +58,7 @@ foreach ($items as $key => $item) {
         $rss->url = $itemId;
         $rss->created_at = date('Y-m-d H:i:s', $info->op_ctime / 1000);
         $rss->title = $info->op_title;
-        $rss->description = $info->op_description;
+        $rss->description = addslashes($info->op_description);
         $rss->type = $info->job_type;
         $rss->budget = $info->amount;
         $rss->engagement = $info->op_engagement;
@@ -65,6 +66,7 @@ foreach ($items as $key => $item) {
         $rss->contractor_tier = $info->op_contractor_tier;
         $rss->skills = implode(', ', $skillsArr);
         $rss->insert($db);
+
     }
 }
 
