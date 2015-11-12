@@ -36,22 +36,37 @@ $items = $fastFeed->fetch('upwork');
 $configDb = json_decode(file_get_contents(__DIR__ . '/config.json'));
 $db = new Db($configDb);
 
+function skill($s)
+{
+    return $s->skill;
+}
+
+
 foreach ($items as $key => $item) {
     $itemId = $item->getId();
     $jobId = '~' . explode('?source=rss', explode('_%7E', $itemId)[1])[0];
     $res = Rss::findOne($db, $jobId);
 
     if (!isset($res)) {
+//        try {
         $specific = $profile->getSpecific($jobId);
+
+
+//        }
+//        catch (OAuthException2 $e) {
+//            var_dump($e);
+//            die;
+//        }
         $info = $specific->profile;
+
+
         $skillsArr = [];
         if ($info->op_required_skills &&
             $info->op_required_skills->op_required_skill
         ) {
             $skills = $info->op_required_skills->op_required_skill;
-            foreach ($skills as $skill) {
-                array_push($skillsArr, $skill->skill);   //todo - function for work with array
-            }
+            $skillsArr = array_map('skill', $skills);
+
         }
         $rss = new Rss;
         $rss->id = $jobId;
