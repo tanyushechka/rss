@@ -9,6 +9,7 @@ use FastFeed\FastFeed;
 use FastFeed\Parser\RSSParser;
 use Guzzle\Http\Client as HttpClient;
 use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 use App\Classes\Rss;
 use App\Classes\Db;
 
@@ -26,7 +27,9 @@ $config = new Config(
 $client = new Client($config);
 $profile = new Profile($client);
 $httpClient = new HttpClient();
-$logger = new Logger('name');
+$stream = new StreamHandler(__DIR__.'/my_app.log', Logger::DEBUG);
+$logger = new Logger('my_logger');
+$logger->pushHandler($stream);
 $fastFeed = new FastFeed($httpClient, $logger);
 $parser = new RSSParser();
 $fastFeed->pushParser($parser);
@@ -41,32 +44,30 @@ function skill($s)
     return $s->skill;
 }
 
-
 foreach ($items as $key => $item) {
     $itemId = $item->getId();
     $jobId = '~' . explode('?source=rss', explode('_%7E', $itemId)[1])[0];
     $res = Rss::findOne($db, $jobId);
-
     if (!isset($res)) {
-//        try {
+        try {
         $specific = $profile->getSpecific($jobId);
-
-
-//        }
-//        catch (OAuthException2 $e) {
-//            var_dump($e);
-//            die;
-//        }
+        }
+        catch (OAuthException2 $e) {
+            $logger->addInfo($e->getMessage());
+        }
         $info = $specific->profile;
-
-
         $skillsArr = [];
+        $skillsStr = '';
         if ($info->op_required_skills &&
             $info->op_required_skills->op_required_skill
         ) {
             $skills = $info->op_required_skills->op_required_skill;
-            $skillsArr = array_map('skill', $skills);
-
+            if (is_array($skills)) {
+                $skillsArr = array_map('skill', $skills);
+                $skillsStr = implode(', ', $skillsArr);
+            } else if (is_object($skills)) {
+                $skillsStr = $skills->skill;
+            }
         }
         $rss = new Rss;
         $rss->id = $jobId;
@@ -79,9 +80,8 @@ foreach ($items as $key => $item) {
         $rss->engagement = $info->op_engagement;
         $rss->engagement_weeks = $info->op_engagement_weeks;
         $rss->contractor_tier = $info->op_contractor_tier;
-        $rss->skills = implode(', ', $skillsArr);
+        $rss->skills = $skillsStr;
         $rss->insert($db);
-
     }
 }
 

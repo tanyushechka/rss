@@ -40,8 +40,6 @@ class Rss
             $data[':' . $property] = $this->$property;
         }
         $sql = 'INSERT INTO rss (' . implode(', ', $columns) . ') VALUES (' . implode(', ', $places) . ')';
-        var_dump($sql);
-        var_dump($data);
         return $db->dbExecute($sql, $data);
     }
 
