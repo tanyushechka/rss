@@ -10,6 +10,7 @@ use FastFeed\Parser\RSSParser;
 use Guzzle\Http\Client as HttpClient;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Monolog\Handler\BrowserConsoleHandler;
 use App\Classes\Rss;
 use App\Classes\Db;
 
@@ -27,9 +28,11 @@ $config = new Config(
 $client = new Client($config);
 $profile = new Profile($client);
 $httpClient = new HttpClient();
-$stream = new StreamHandler(__DIR__.'/my_app.log', Logger::DEBUG);
-$logger = new Logger('my_logger');
+$stream = new StreamHandler(__DIR__ . '/exceptions.log', Logger::INFO);
+$browser = new BrowserConsoleHandler(Logger::INFO, true);
+$logger = new Logger('rss_logger');
 $logger->pushHandler($stream);
+$logger->pushHandler($browser);
 $fastFeed = new FastFeed($httpClient, $logger);
 $parser = new RSSParser();
 $fastFeed->pushParser($parser);
@@ -39,49 +42,46 @@ $items = $fastFeed->fetch('upwork');
 $configDb = json_decode(file_get_contents(__DIR__ . '/config.json'));
 $db = new Db($configDb);
 
-function skill($s)
-{
-    return $s->skill;
-}
-
 foreach ($items as $key => $item) {
     $itemId = $item->getId();
     $jobId = '~' . explode('?source=rss', explode('_%7E', $itemId)[1])[0];
     $res = Rss::findOne($db, $jobId);
     if (!isset($res)) {
         try {
-        $specific = $profile->getSpecific($jobId);
-        }
-        catch (OAuthException2 $e) {
+            $specific = $profile->getSpecific($jobId);
+
+            $info = $specific->profile;
+            $skillsArr = [];
+            $skillsStr = '';
+            if ($info->op_required_skills &&
+                $info->op_required_skills->op_required_skill
+            ) {
+                $skills = $info->op_required_skills->op_required_skill;
+                if (is_array($skills)) {
+                    $skillsArr = array_map(function ($s) {
+                        return $s->skill;
+                    }, $skills);
+                    $skillsStr = implode(', ', $skillsArr);
+                } else if (is_object($skills)) {
+                    $skillsStr = $skills->skill;
+                }
+            }
+            $rss = new Rss;
+            $rss->id = $jobId;
+            $rss->url = $itemId;
+            $rss->created_at = date('Y-m-d H:i:s', $info->op_ctime / 1000);
+            $rss->title = $info->op_title;
+            $rss->description = addslashes($info->op_description);
+            $rss->type = $info->job_type;
+            $rss->budget = $info->amount;
+            $rss->engagement = $info->op_engagement;
+            $rss->engagement_weeks = $info->op_engagement_weeks;
+            $rss->contractor_tier = $info->op_contractor_tier;
+            $rss->skills = $skillsStr;
+            $rss->insert($db);
+        } catch (OAuthException2 $e) {
             $logger->addInfo($e->getMessage());
         }
-        $info = $specific->profile;
-        $skillsArr = [];
-        $skillsStr = '';
-        if ($info->op_required_skills &&
-            $info->op_required_skills->op_required_skill
-        ) {
-            $skills = $info->op_required_skills->op_required_skill;
-            if (is_array($skills)) {
-                $skillsArr = array_map('skill', $skills);
-                $skillsStr = implode(', ', $skillsArr);
-            } else if (is_object($skills)) {
-                $skillsStr = $skills->skill;
-            }
-        }
-        $rss = new Rss;
-        $rss->id = $jobId;
-        $rss->url = $itemId;
-        $rss->created_at = date('Y-m-d H:i:s', $info->op_ctime / 1000);
-        $rss->title = $info->op_title;
-        $rss->description = addslashes($info->op_description);
-        $rss->type = $info->job_type;
-        $rss->budget = $info->amount;
-        $rss->engagement = $info->op_engagement;
-        $rss->engagement_weeks = $info->op_engagement_weeks;
-        $rss->contractor_tier = $info->op_contractor_tier;
-        $rss->skills = $skillsStr;
-        $rss->insert($db);
     }
 }
 
