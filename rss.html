@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bootstrap Table Examples</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.css">
+    <link rel="stylesheet" href="http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">
+    <script src="http://yastatic.net/jquery/2.1.4/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/locale/bootstrap-table-ru-RU.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <table id="table"
+           data-url="/upwork.php"
+           data-search="true"
+           data-show-refresh="true"
+           data-show-toggle="true"
+           data-show-columns="true"
+           data-show-pagination-switch="true"
+           data-detail-view="true"
+           data-pagination="true"
+           data-striped="true"
+           data-locale="ru-RU"
+            >
+    </table>
+</div>
+
+<script>
+
+    $(function () {
+        $('#table').bootstrapTable({
+            columns: [{
+                field: 'id',
+                title: 'Номер'
+            }, {
+                field: 'name',
+                title: 'Название'
+            }, {
+                field: 'price',
+                title: 'Цена'
+            }]
+        });
+    });
+
+$('#table').on('expand-row.bs.table', function (e, index, row, $detail) {
+        $detail.html('Loading from ajax request...');
+    if (index % 2 == 1) {
+        $.get('LICENSE', function (res) {
+            $detail.html(res.replace(/\n/g, '<br>'));
+        });
+    }
+});
+
+</script>
+</body>
+</html>
