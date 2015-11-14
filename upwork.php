@@ -17,9 +17,9 @@ use App\Classes\Db;
 
 $configDb = json_decode(file_get_contents(__DIR__ . '/config.json'));
 $db = new Db($configDb);
-
-$rss = Rss::findAll($db);
-echo json_encode($rss, JSON_UNESCAPED_UNICODE);
+save_rss();
+$result = Rss::findAll($db);
+echo json_encode($result, JSON_UNESCAPED_UNICODE);
 
 
 
@@ -96,4 +96,3 @@ function save_rss()
     }
 }
 
-//save_rss();
