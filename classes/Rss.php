@@ -17,9 +17,8 @@ class Rss
 
     public static function findAll($db)
     {
-//        $class = static::class;
-        $sql = 'SELECT id, title, budget FROM rss ORDER BY created_at DESC';
-        return $db->dbSelect($sql);
+        $sql = 'SELECT * FROM rss ORDER BY created_at DESC';
+        return $db->dbSelectObj($sql);
     }
 
     public static function findOne($db, $id)

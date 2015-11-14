@@ -4,7 +4,8 @@
     <title>Bootstrap Table Examples</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.css">
-    <link rel="stylesheet" href="http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">
+    <link rel="stylesheet"
+          href="http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">
     <script src="http://yastatic.net/jquery/2.1.4/jquery.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
@@ -15,6 +16,7 @@
     <table id="table"
            data-url="/upwork.php"
            data-search="true"
+           data-cache="false"
            data-show-refresh="true"
            data-show-toggle="true"
            data-show-columns="true"
@@ -23,6 +25,8 @@
            data-pagination="true"
            data-striped="true"
            data-locale="ru-RU"
+           data-page-size="7"
+           data-page-list="[7, 10, 20, 50, All]"
             >
     </table>
 </div>
@@ -31,27 +35,67 @@
 
     $(function () {
         $('#table').bootstrapTable({
+//            getHeight(),
             columns: [{
                 field: 'id',
-                title: 'Id'
+                title: 'Id',
+                visible: false
+            }, {
+                field: 'url',
+                title: 'url',
+                visible: false
+            }, {
+                field: 'created_at',
+                title: 'created_at'
             }, {
                 field: 'title',
                 title: 'Title'
             }, {
+                field: 'description',
+                title: 'description',
+                visible: false
+            }, {
+                field: 'type',
+                title: 'type'
+            }, {
                 field: 'budget',
-                title: 'Budget'
+                title: 'budget',
+                sortable: true
+            }, {
+                field: 'engagement',
+                title: 'engagement'
+            }, {
+                field: 'engagement_weeks',
+                title: 'engagement_weeks'
+            }, {
+                field: 'contractor_tier',
+                title: 'contractor_tier',
+                sortable: true
+            }, {
+                field: 'skills',
+                title: 'skills'
             }]
         });
     });
 
-$('#table').on('expand-row.bs.table', function (e, index, row, $detail) {
+//    function getHeight() {
+//        return $(window).height() - $('h1').outerHeight(true);
+//    }
+//
+//    $(window).resize(function () {
+//        $table.bootstrapTable('resetView', {
+//            height: getHeight()
+//        });
+//    });
+
+    $('#table').on('expand-row.bs.table', function (e, index, row, $detail) {
         $detail.html('Loading from ajax request...');
-    if (index % 2 == 1) {
-        $.get('LICENSE', function (res) {
-            $detail.html(res.replace(/\n/g, '<br>'));
-        });
-    }
-});
+        if (index % 2 == 1) {
+            $.get('LICENSE', function (res) {
+                $detail.html(res.replace(/\n/g, '<br>'));
+            });
+        }
+    });
 
 </script>
 </body>

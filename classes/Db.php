@@ -12,22 +12,21 @@ class Db
     }
 
 
-    function dbSelect($sql, $params = [])
+    function dbSelect($class, $sql, $params = [])
+    {
+        $sth = $this->dbh->prepare($sql);
+        $sth->execute($params);
+        $res = ($sth->fetchAll(\PDO::FETCH_CLASS, $class));
+        return $res;
+    }
+
+    function dbSelectObj($sql, $params = [])
     {
         $sth = $this->dbh->prepare($sql);
         $sth->execute($params);
         $res = ($sth->fetchAll(\PDO::FETCH_OBJ));
         return $res;
     }
-
-//    function dbSelect($class, $sql, $params = [])
-//    {
-//        $sth = $this->dbh->prepare($sql);
-//        $sth->execute($params);
-//        $res = ($sth->fetchAll(\PDO::FETCH_CLASS, $class));
-//        return $res;
-//    }
-
 
 
     function dbGetId()
