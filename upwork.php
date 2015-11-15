@@ -47,52 +47,52 @@ function save_rss($db)
     $parser = new RSSParser();
     $fastFeed->pushParser($parser);
     $fastFeed->addFeed('upwork_feed', 'https://www.upwork.com/jobs/rss?cn1[]=Web%2C+Mobile+%26+Software+Dev&cn2[]=Web+Development&t[]=0&t[]=1&dur[]=0&dur[]=1&dur[]=13&dur[]=26&dur[]=none&wl[]=10&wl[]=30&wl[]=none&tba[]=0&tba[]=1-9&tba[]=10-&exp[]=1&exp[]=2&exp[]=3&amount[]=Min&amount[]=Max&sortBy=s_ctime+desc&_redirected');
-    $items_ = $fastFeed->fetch('upwork_feed');
+    $items = $fastFeed->fetch('upwork_feed');
 
 
 
-//    foreach ($items as $key => $item) {
-//        $itemId = $item->getId();
-//        $jobId = '~' . explode('?source=rss', explode('_%7E', $itemId)[1])[0];
-//        $res = Rss::findOne($db, $jobId);
-//        if (!isset($res)) {
-//            try {
-//                $specific = $profile->getSpecific($jobId);
-//
-//                $info = $specific->profile;
-//                $skillsArr = [];
-//                $skillsStr = '';
-//                if ($info->op_required_skills &&
-//                    $info->op_required_skills->op_required_skill
-//                ) {
-//                    $skills = $info->op_required_skills->op_required_skill;
-//                    if (is_array($skills)) {
-//                        $skillsArr = array_map(function ($s) {
-//                            return $s->skill;
-//                        }, $skills);
-//                        $skillsStr = implode(', ', $skillsArr);
-//                    } else if (is_object($skills)) {
-//                        $skillsStr = $skills->skill;
-//                    }
-//                }
-//                $rss = new Rss;
-//                $rss->id = $jobId;
-//                $rss->url = $itemId;
-//                $rss->created_at = date('Y-m-d H:i:s', $info->op_ctime / 1000);
-//                $rss->title = $info->op_title;
-//                $rss->description = addslashes($info->op_description);
-//                $rss->type = $info->job_type;
-//                $rss->budget = $info->amount;
-//                $rss->engagement = $info->op_engagement;
-//                $rss->engagement_weeks = $info->engagement_weeks;
-//                $rss->contractor_tier = $info->op_contractor_tier;
-//                $rss->skills = $skillsStr;
-//                $rss->insert($db);
-//            } catch (OAuthException2 $e) {
-//                $logger->addInfo($e->getMessage());
-//            }
-//        }
-//    }
+    foreach ($items as $key => $item) {
+        $itemId = $item->getId();
+        $jobId = '~' . explode('?source=rss', explode('_%7E', $itemId)[1])[0];
+        $res = Rss::findOne($db, $jobId);
+        if (!isset($res)) {
+            try {
+                $specific = $profile->getSpecific($jobId);
+
+                $info = $specific->profile;
+                $skillsArr = [];
+                $skillsStr = '';
+                if ($info->op_required_skills &&
+                    $info->op_required_skills->op_required_skill
+                ) {
+                    $skills = $info->op_required_skills->op_required_skill;
+                    if (is_array($skills)) {
+                        $skillsArr = array_map(function ($s) {
+                            return $s->skill;
+                        }, $skills);
+                        $skillsStr = implode(', ', $skillsArr);
+                    } else if (is_object($skills)) {
+                        $skillsStr = $skills->skill;
+                    }
+                }
+                $rss = new Rss;
+                $rss->id = $jobId;
+                $rss->url = $itemId;
+                $rss->created_at = date('Y-m-d H:i:s', $info->op_ctime / 1000);
+                $rss->title = $info->op_title;
+                $rss->description = addslashes($info->op_description);
+                $rss->type = $info->job_type;
+                $rss->budget = $info->amount;
+                $rss->engagement = $info->op_engagement;
+                $rss->engagement_weeks = $info->engagement_weeks;
+                $rss->contractor_tier = $info->op_contractor_tier;
+                $rss->skills = $skillsStr;
+                $rss->insert($db);
+            } catch (OAuthException2 $e) {
+                $logger->addInfo($e->getMessage());
+            }
+        }
+    }
 }
 
 save_rss($db);
