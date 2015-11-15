@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Bootstrap Table Examples</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.css">
@@ -10,11 +11,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/locale/bootstrap-table-ru-RU.min.js"></script>
+
 </head>
 <body>
 <div class="container">
     <table id="table"
-           data-url="/upwork.php"
+           data-url="/get_data.php"
            data-search="true"
            data-cache="false"
            data-show-refresh="true"
@@ -34,6 +36,7 @@
 <script>
 
     $(function () {
+
         $('#table').bootstrapTable({
 //            getHeight(),
             columns: [{
@@ -78,15 +81,15 @@
         });
     });
 
-//    function getHeight() {
-//        return $(window).height() - $('h1').outerHeight(true);
-//    }
-//
-//    $(window).resize(function () {
-//        $table.bootstrapTable('resetView', {
-//            height: getHeight()
-//        });
-//    });
+    //    function getHeight() {
+    //        return $(window).height() - $('h1').outerHeight(true);
+    //    }
+    //
+    //    $(window).resize(function () {
+    //        $table.bootstrapTable('resetView', {
+    //            height: getHeight()
+    //        });
+    //    });
 
     $('#table').on('expand-row.bs.table', function (e, index, row, $detail) {
         $detail.html('Loading from ajax request...');
@@ -96,6 +99,17 @@
             });
         }
     });
+
+//    $('#table').on('reset-view.bs.table', function () {
+//        alert('reset');
+//        $.get( '/save_data.php', function() {
+//            alert( "Load was performed." );
+//        });
+//    });
+//
+//    $('#table').on('refresh-options.bs.table', function (options) {
+//        alert(options);
+//    });
 
 </script>
 </body>
