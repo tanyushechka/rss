@@ -92,24 +92,8 @@
     //    });
 
     $('#table').on('expand-row.bs.table', function (e, index, row, $detail) {
-        $detail.html('Loading from ajax request...');
-        if (index % 2 == 1) {
-            $.get('LICENSE', function (res) {
-                $detail.html(res.replace(/\n/g, '<br>'));
-            });
-        }
+        $detail.html(row.description).css({'background-color': '#ff9', 'font-family': 'Calibri'});
     });
-
-//    $('#table').on('reset-view.bs.table', function () {
-//        alert('reset');
-//        $.get( '/save_data.php', function() {
-//            alert( "Load was performed." );
-//        });
-//    });
-//
-//    $('#table').on('refresh-options.bs.table', function (options) {
-//        alert(options);
-//    });
 
 </script>
 </body>
