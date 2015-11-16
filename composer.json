@@ -3,6 +3,7 @@
     "upwork/php-upwork": "dev-master",
     "fastfeed/fastfeed": "dev-master",
     "guzzlehttp/guzzle": "*",
-    "monolog/monolog": "^1.17"
+    "monolog/monolog": "^1.17",
+    "php-console/php-console": "~3.0"
   }
 }

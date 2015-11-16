@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0a7bde4fac9c5d8397c714241e8db4f8",
-    "content-hash": "d837c591c223d485ea6d1ab1af0353ad",
+    "hash": "11429bae037c5839373ed07ef11e12c2",
+    "content-hash": "0157db4316f8a89e2cd8636b78ef7e7f",
     "packages": [
         {
             "name": "desarrolla2/cache",
@@ -615,6 +615,57 @@
             "time": "2015-10-14 12:51:02"
         },
         {
+            "name": "php-console/php-console",
+            "version": "3.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barbushin/php-console.git",
+                "reference": "50236f71d80f983d232683d5d61ba1994d40c3de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barbushin/php-console/zipball/50236f71d80f983d232683d5d61ba1994d40c3de",
+                "reference": "50236f71d80f983d232683d5d61ba1994d40c3de",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "PhpConsole": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Barbushin",
+                    "email": "barbushin@gmail.com",
+                    "homepage": "http://linkedin.com/in/barbushin"
+                }
+            ],
+            "description": "Server side PHP library for Google Chrome extension \"PHP Console\".",
+            "homepage": "https://github.com/barbushin/php-console",
+            "keywords": [
+                "chrome",
+                "debug",
+                "error handler",
+                "errors",
+                "google chrome",
+                "php"
+            ],
+            "time": "2015-10-29 01:31:31"
+        },
+        {
             "name": "psr/http-message",
             "version": "1.0",
             "source": {
@@ -764,12 +815,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/upwork/php-upwork.git",
-                "reference": "333592ee76cd170db4c438267cf7ebf7141ad159"
+                "reference": "e809d1eaf92e75216bc75450d6c3eef23800a533"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/upwork/php-upwork/zipball/333592ee76cd170db4c438267cf7ebf7141ad159",
-                "reference": "333592ee76cd170db4c438267cf7ebf7141ad159",
+                "url": "https://api.github.com/repos/upwork/php-upwork/zipball/e809d1eaf92e75216bc75450d6c3eef23800a533",
+                "reference": "e809d1eaf92e75216bc75450d6c3eef23800a533",
                 "shasum": ""
             },
             "require": {
@@ -811,7 +862,7 @@
                 "php",
                 "upwork"
             ],
-            "time": "2015-10-12 06:48:22"
+            "time": "2015-11-06 13:24:35"
         },
         {
             "name": "zendframework/zend-diactoros",
