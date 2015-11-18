@@ -7,69 +7,91 @@ use Upwork\API\Client;
 use Upwork\API\Routers\Jobs\Profile;
 use Upwork\API\Routers\Jobs\Search;
 use App\Classes\Db;
-use FastFeed\FastFeed;
-use FastFeed\Parser\RSSParser;
-use Guzzle\Http\Client as HttpClient;
+use App\Classes\Upwork;
 use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+//use Monolog\Handler\BrowserConsoleHandler;
+use Monolog\Handler\PHPConsoleHandler;
+
 
 $configDb = json_decode(file_get_contents(__DIR__ . '/config.json'));
 $db = new Db($configDb);
 
-$_SESSION['access_token'] = '6cd6202680a20796889a537ae28bb51e';
-$_SESSION['access_secret'] = '2d2c4ec57fd374c4';
+$accessToken = '6cd6202680a20796889a537ae28bb51e';
+$accessSecret = '2d2c4ec57fd374c4';
+
+$stream = new StreamHandler(__DIR__ . '/exceptions.log', Logger::DEBUG);
+//$browser = new BrowserConsoleHandler(Logger::DEBUG, true);
+$phpConsole = new PHPConsoleHandler();
+$logger = new Logger('rss_logger');
+$logger->pushHandler($stream);
+//$logger->pushHandler($browser);
+$logger->pushHandler($phpConsole);
 
 $config = new Config(
     [
         'consumerKey' => '0b890e685dbaa9fddaf51df47f924096',
         'consumerSecret' => '70590fda6583b2db',
-        'accessToken' => $_SESSION['access_token'],
-        'accessSecret' => $_SESSION['access_secret'],
+        'accessToken' => $accessToken,
+        'accessSecret' => $accessSecret,
         'debug' => false,
         'authType' => 'OAuthPHPLib'
     ]
 );
 
 $client = new Client($config);
-if (!empty($_SESSION['access_token']) && !empty($_SESSION['access_secret'])) {
-    $client->getServer()
-        ->getInstance()
-        ->addServerToken(
-            $config::get('consumerKey'),
-            'access',
-            $_SESSION['access_token'],
-            $_SESSION['access_secret'],
-            0
-        );
-} else {
-    $accessTokenInfo = $client->auth();
-}
-date_default_timezone_set('Europe/Moscow');
+$client->getServer()->getInstance()->addServerToken($config::get('consumerKey'),
+'access', $accessToken, $accessSecret, 0);
+$profile = new Profile($client);
 
 $jobs = new Search($client);
-$params = ['q' => '*', 'category2' => 'Web, Mobile & Software Dev'];
+$params = ['q' => '*', 'category2' => 'Web, Mobile & Software Dev', 'paging' => '0;10'];
 $arrJobs = $jobs->find($params);
-foreach ($arrJobs->jobs as $job) {
-    $date_created = $job->date_created;
-    echo $job->id . '- - - -' . $date_created . '<br>';
-    echo $job->url.'<br>';
+foreach ($arrJobs->jobs as $i => $job) {
+    $res = Upwork::findOne($db, $job->id);
+    if (!isset($res)) {
+        try {
+            $specific = $profile->getSpecific($job->id);
+            $info = $specific->profile;
+            $skillsArr = [];
+            $skillsStr = '';
+            if ($info->op_required_skills &&
+                $info->op_required_skills->op_required_skill
+            ) {
+                $skills = $info->op_required_skills->op_required_skill;
+                if (is_array($skills)) {
+                    $skillsArr = array_map(function ($s) {
+                        return $s->skill;
+                    }, $skills);
+                    $skillsStr = implode(', ', $skillsArr);
+                } else if (is_object($skills)) {
+                    $skillsStr = $skills->skill;
+                }
+            }
+            $upwork = new Upwork();
+            $upwork->sample_id = $job->id;
+            $upwork->sample_date = date('Y-m-d H:i:s');
+            $upwork->job_id = $job->id;
+            $upwork->url = $job->url;
+            $upwork->created_at = date('Y-m-d H:i:s', $info->op_ctime / 1000);
+            $upwork->title = $info->op_title;
+            $upwork->description = addslashes($info->op_description);
+            $upwork->type = $info->job_type;
+            $upwork->budget = $info->amount;
+            $upwork->engagement = $info->op_engagement;
+            $upwork->engagement_weeks = $info->engagement_weeks;
+            $upwork->contractor_tier = $info->op_contractor_tier;
+            $upwork->skills = $skillsStr;
+            $upwork->insert($db);
+        } catch (OAuthException2 $e) {
+            $logger->addInfo($e->getMessage());
+        }
+    }
+//    $date_created = $job->date_created;
+//    $unixDate = strtotime($date_created);
+//    $created_at = date('Y-m-d  H:i:s', $unixDate);
+//    echo $i.'---'.$created_at . '<br>';
 }
-echo '<br><br><br>';
-$profile = new Profile($client);
-$logger = new Logger('rss_logger');
-$httpClient = new HttpClient();
-$fastFeed = new FastFeed($httpClient, $logger);
-$parser = new RSSParser();
-$fastFeed->pushParser($parser);
-$fastFeed->addFeed('upwork', 'https://www.upwork.com/jobs/rss?cn1[]=Web%2C+Mobile+%26+Software+Dev&cn2[]=Web+Development&t[]=0&t[]=1&dur[]=0&dur[]=1&dur[]=13&dur[]=26&dur[]=none&wl[]=10&wl[]=30&wl[]=none&tba[]=0&tba[]=1-9&tba[]=10-&exp[]=1&exp[]=2&exp[]=3&amount[]=Min&amount[]=Max&sortBy=s_ctime+desc&_redirected');
-$items = $fastFeed->fetch('upwork');
-foreach ($items as $key => $item) {
-    $itemId = $item->getId();
-    $jobId = '~' . explode('?source=rss', explode('_%7E', $itemId)[1])[0];
-    $specific = $profile->getSpecific($jobId);
-    $info = $specific->profile;
-    $created_at = date('Y-m-d H:i:s', $info->op_ctime / 1000);
-    echo $jobId . '- - - -' . $created_at . '<br>';
-    echo $itemId . '<br>';
 
-
-}
+$result = Upwork::findAll($db);
+echo json_encode($result, JSON_UNESCAPED_UNICODE);

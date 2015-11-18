@@ -1,9 +1,12 @@
 <?php
 namespace App\Classes;
 
-class Rss
+class Upwork
 {
     public $id;
+    public $sample_id;
+    public $sample_date;
+    public $job_id;
     public $url;
     public $created_at;
     public $title;
@@ -17,20 +20,21 @@ class Rss
 
     public static function findAll($db)
     {
-        $sql = 'SELECT * FROM rss ORDER BY created_at DESC';
+        $sql = 'SELECT * FROM upwork ORDER BY created_at DESC';
         return $db->dbSelectObj($sql);
     }
 
-    public static function findOne($db, $id)
+    public static function findOne($db, $job_id)
     {
         $class = static::class;
-        $sql = 'SELECT * FROM rss WHERE id = :id';
-        return $db->dbSelect($class, $sql, [':id' => $id])[0];
+        $sql = 'SELECT * FROM upwork WHERE job_id = :job_id';
+        return $db->dbSelect($class, $sql, [':job_id' => $job_id])[0];
     }
 
     public function insert($db)
     {
         $properties = get_object_vars($this);
+        unset($properties['id']);
         $columns = array_keys($properties);
         $places = [];
         $data = [];
@@ -38,7 +42,7 @@ class Rss
             $places[] = ':' . $property;
             $data[':' . $property] = $this->$property;
         }
-        $sql = 'INSERT INTO rss (' . implode(', ', $columns) . ') VALUES (' . implode(', ', $places) . ')';
+        $sql = 'INSERT INTO upwork (' . implode(', ', $columns) . ') VALUES (' . implode(', ', $places) . ')';
         return $db->dbExecute($sql, $data);
     }
 
