@@ -43,7 +43,6 @@ $client = new Client($config);
 $client->getServer()->getInstance()->addServerToken($config::get('consumerKey'),
 'access', $accessToken, $accessSecret, 0);
 $profile = new Profile($client);
-
 $jobs = new Search($client);
 $params = ['q' => '*', 'category2' => 'Web, Mobile & Software Dev', 'paging' => '0;10'];
 $arrJobs = $jobs->find($params);
@@ -69,7 +68,7 @@ foreach ($arrJobs->jobs as $i => $job) {
                 }
             }
             $upwork = new Upwork();
-            $upwork->sample_id = $job->id;
+            $upwork->sample_id = ++$i;
             $upwork->sample_date = date('Y-m-d H:i:s');
             $upwork->job_id = $job->id;
             $upwork->url = $job->url;
@@ -87,10 +86,6 @@ foreach ($arrJobs->jobs as $i => $job) {
             $logger->addInfo($e->getMessage());
         }
     }
-//    $date_created = $job->date_created;
-//    $unixDate = strtotime($date_created);
-//    $created_at = date('Y-m-d  H:i:s', $unixDate);
-//    echo $i.'---'.$created_at . '<br>';
 }
 
 $result = Upwork::findAll($db);
