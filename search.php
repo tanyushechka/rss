@@ -44,9 +44,10 @@ $client->getServer()->getInstance()->addServerToken($config::get('consumerKey'),
 'access', $accessToken, $accessSecret, 0);
 $profile = new Profile($client);
 $jobs = new Search($client);
-$params = ['q' => '*', 'category2' => 'Web, Mobile & Software Dev', 'paging' => '0;10'];
+$params = ['q' => '*', 'category2' => 'Web, Mobile & Software Dev', 'paging' => '0;100'];
 $arrJobs = $jobs->find($params);
 foreach ($arrJobs->jobs as $i => $job) {
+//    var_dump($i.' = '.$job->id);
     $res = Upwork::findOne($db, $job->id);
     if (!isset($res)) {
         try {
@@ -84,6 +85,7 @@ foreach ($arrJobs->jobs as $i => $job) {
             $upwork->insert($db);
         } catch (OAuthException2 $e) {
             $logger->addInfo($e->getMessage());
+//            var_dump($job);
         }
     }
 }
