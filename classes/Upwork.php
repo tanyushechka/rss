@@ -46,5 +46,4 @@ class Upwork
         return $db->dbExecute($sql, $data);
     }
 
-
 }

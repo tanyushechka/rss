@@ -41,52 +41,40 @@ $config = new Config(
 
 $client = new Client($config);
 $client->getServer()->getInstance()->addServerToken($config::get('consumerKey'),
-'access', $accessToken, $accessSecret, 0);
+    'access', $accessToken, $accessSecret, 0);
 $profile = new Profile($client);
 $jobs = new Search($client);
 $params = ['q' => '*', 'category2' => 'Web, Mobile & Software Dev', 'paging' => '0;100'];
 $arrJobs = $jobs->find($params);
+
 foreach ($arrJobs->jobs as $i => $job) {
-//    var_dump($i.' = '.$job->id);
     $res = Upwork::findOne($db, $job->id);
     if (!isset($res)) {
+        $upwork = new Upwork();
+        $upwork->sample_id = ++$i;
+        $upwork->sample_date = date('Y-m-d H:i:s');
+        $upwork->job_id = $job->id;
+        $upwork->url = $job->url;
+        $upwork->title = $job->title;
+        $upwork->description = $job->snippet;
+        $upwork->type = $job->job_type;
+        $upwork->budget = $job->budget;
+        $upwork->engagement = $job->duration;
+        $upwork->engagement_weeks = $job->workload;
+        $upwork->skills = implode(', ', $job->skills);
         try {
             $specific = $profile->getSpecific($job->id);
             $info = $specific->profile;
-            $skillsArr = [];
-            $skillsStr = '';
-            if ($info->op_required_skills &&
-                $info->op_required_skills->op_required_skill
-            ) {
-                $skills = $info->op_required_skills->op_required_skill;
-                if (is_array($skills)) {
-                    $skillsArr = array_map(function ($s) {
-                        return $s->skill;
-                    }, $skills);
-                    $skillsStr = implode(', ', $skillsArr);
-                } else if (is_object($skills)) {
-                    $skillsStr = $skills->skill;
-                }
-            }
-            $upwork = new Upwork();
-            $upwork->sample_id = ++$i;
-            $upwork->sample_date = date('Y-m-d H:i:s');
-            $upwork->job_id = $job->id;
-            $upwork->url = $job->url;
             $upwork->created_at = date('Y-m-d H:i:s', $info->op_ctime / 1000);
-            $upwork->title = $info->op_title;
-            $upwork->description = addslashes($info->op_description);
-            $upwork->type = $info->job_type;
-            $upwork->budget = $info->amount;
-            $upwork->engagement = $info->op_engagement;
-            $upwork->engagement_weeks = $info->engagement_weeks;
             $upwork->contractor_tier = $info->op_contractor_tier;
-            $upwork->skills = $skillsStr;
-            $upwork->insert($db);
         } catch (OAuthException2 $e) {
             $logger->addInfo($e->getMessage());
-//            var_dump($job);
+            if (preg_match('#Profile.+is disabled#', $e->getMessage()) === 1) {
+                $upwork->created_at = date('Y-m-d H:i:s', strtotime($job->date_created));
+                $upwork->contractor_tier = 8;
+            }
         }
+        $upwork->insert($db);
     }
 }
 
