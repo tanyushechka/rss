@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Filter Control</title>
+    <meta charset="utf-8">
+    <!--<link rel="stylesheet"-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.css">
+    <script src="http://yastatic.net/jquery/2.1.4/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/locale/bootstrap-table-ru-RU.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Filter Control</h1>
+    <table id="table"
+           data-toggle="table"
+           data-url="/json/data1.json"
+           data-filter-control="true"
+           data-filter-show-clear="true">
+        <thead>
+        <tr>
+            <th data-field="id">ID</th>
+            <th data-field="name" data-filter-control="input">Item Name</th>
+            <th data-field="price" data-filter-control="select">Item Price</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+</body>
+</html>

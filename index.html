@@ -5,13 +5,16 @@
     <title>Bootstrap Table Examples</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.css">
-    <link rel="stylesheet"
-          href="http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">
-    <script src="http://yastatic.net/jquery/2.1.4/jquery.js"></script>
+    <!--<link rel="stylesheet"-->
+          <!--href="http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">-->
+       <script src="http://yastatic.net/jquery/2.1.4/jquery.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/locale/bootstrap-table-ru-RU.min.js"></script>
 
+    <!--<script src="http://rawgit.com/lukaskral/bootstrap-table/feature_lukaskral_bootstrap_table_filter_integration/src/bootstrap-table.js"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter/bootstrap-table-filter.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -28,6 +31,8 @@
            data-locale="ru-RU"
            data-page-size="7"
            data-page-list="[7, 10, 20, 50, All]"
+           data-filter-control="true"
+           data-filter-show-clear="true"
             >
     </table>
 </div>
@@ -38,6 +43,7 @@
 
         $('#table').bootstrapTable({
 //            getHeight(),
+
             columns: [{
                 field: 'job_id',
                 title: 'Id',
@@ -63,6 +69,7 @@
             }, {
                 field: 'budget',
                 title: 'budget',
+                filterControl: 'select',
                 sortable: true
             }, {
                 field: 'engagement',
@@ -74,6 +81,7 @@
                 field: 'contractor_tier',
                 title: 'contractor_tier',
                 sortable: true
+
             }, {
                 field: 'skills',
                 title: 'skills'
