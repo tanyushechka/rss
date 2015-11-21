@@ -58,7 +58,7 @@ foreach ($arrJobs->jobs as $i => $job) {
         $upwork->title = $job->title;
         $upwork->description = $job->snippet;
         $upwork->type = $job->job_type;
-        $upwork->budget = $job->budget;
+        $upwork->budget = $job->budget === null ? 0 : $job->budget;
         $upwork->engagement = $job->duration;
         $upwork->engagement_weeks = $job->workload;
         $upwork->skills = implode(', ', $job->skills);

@@ -5,19 +5,13 @@
     <title>Bootstrap Table Examples</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
     <!--<link rel="stylesheet"-->
-          <!--href="http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">-->
-       <script src="http://yastatic.net/jquery/2.1.4/jquery.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/locale/bootstrap-table-ru-RU.min.js"></script>
-
-    <!--<script src="http://rawgit.com/lukaskral/bootstrap-table/feature_lukaskral_bootstrap_table_filter_integration/src/bootstrap-table.js"></script>-->
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter/bootstrap-table-filter.min.js"></script>-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
-</head>
+    <!--href="http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">-->
+    </head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <table id="table"
            data-url="/search.php"
            data-search="true"
@@ -36,10 +30,20 @@
             >
     </table>
 </div>
+<script src="http://yastatic.net/jquery/2.1.4/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/locale/bootstrap-table-ru-RU.min.js"></script>
 
+<!--<script src="http://rawgit.com/lukaskral/bootstrap-table/feature_lukaskral_bootstrap_table_filter_integration/src/bootstrap-table.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter/bootstrap-table-filter.min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/locales/bootstrap-datepicker.ru.min.js"></script>
 <script>
 
     $(function () {
+
 
         $('#table').bootstrapTable({
 //            getHeight(),
@@ -55,38 +59,59 @@
             }, {
                 field: 'created_at',
                 title: 'created_at',
+                filterControl: 'datepicker',
+                filterDatepickerOptions: {
+                    "autoclose": true,
+                    "clearBtn": true,
+                    "multidate": true,
+                    "multidateSeparator": ", ",
+                    "todayHighlight": true,
+                    "language": "ru",
+                    "format": "dd-mm-yyyy"
+                },
                 sortable: true
             }, {
                 field: 'title',
-                title: 'Title'
+                title: 'Title',
+                filterControl: 'input'
             }, {
                 field: 'description',
                 title: 'description',
+                filterControl: 'input',
                 visible: false
             }, {
                 field: 'type',
-                title: 'type'
+                title: 'type',
+                filterControl: 'select',
+                sortable: true
             }, {
                 field: 'budget',
                 title: 'budget',
                 filterControl: 'select',
+                filterStrictSearch: true,
                 sortable: true
             }, {
                 field: 'engagement',
-                title: 'engagement'
+                title: 'duration',
+                filterControl: 'input'
             }, {
                 field: 'engagement_weeks',
-                title: 'engagement_weeks'
+                title: 'workload',
+                filterControl: 'input'
             }, {
                 field: 'contractor_tier',
-                title: 'contractor_tier',
+                title: 'tier',
+                filterControl: 'select',
                 sortable: true
 
             }, {
                 field: 'skills',
-                title: 'skills'
+                title: 'skills',
+                filterControl: 'input'
             }]
         });
+
+
     });
 
     //    function getHeight() {
@@ -101,6 +126,15 @@
 
     $('#table').on('expand-row.bs.table', function (e, index, row, $detail) {
         $detail.html(row.description).css({'background-color': '#ff9', 'font-family': 'Calibri'});
+    });
+
+    $('#table').on('column-search.bs.table', function (field, text) {
+        console.log(field);
+    });
+
+    $('#table').on('load-success.bs.table', function (data) {
+        var z = $('#table').bootstrapTable('getData');
+        console.log(z);
     });
 
 </script>
