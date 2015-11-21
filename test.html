@@ -6,11 +6,16 @@
     <!--<link rel="stylesheet"-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.css">
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.min.css">-->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.standalone.min.css">
     <script src="http://yastatic.net/jquery/2.1.4/jquery.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/locale/bootstrap-table-ru-RU.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/locales/bootstrap-datepicker.ru.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -22,12 +27,33 @@
            data-filter-show-clear="true">
         <thead>
         <tr>
-            <th data-field="id">ID</th>
+            <th data-field="id" data-filter-control="datepicker"
+                data-filter-datepicker-options='{
+                "autoclose":true,
+                "clearBtn": true,
+                "multidate": true,
+                "multidateSeparator": ", ",
+                "todayHighlight": true,
+                "language": "ru",
+                "format": "dd-mm-yyyy"
+                }'>ID
+            </th>
             <th data-field="name" data-filter-control="input">Item Name</th>
             <th data-field="price" data-filter-control="select">Item Price</th>
         </tr>
         </thead>
     </table>
 </div>
+
+<script>
+
+    $(function () {
+        $('.date-filter-control').datepicker()
+                .on('changeDate', function(e) {
+                    console.log('lkhzsjbsfklz');
+                });
+
+    });
+</script>
 </body>
 </html>
