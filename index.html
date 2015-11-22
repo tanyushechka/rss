@@ -5,12 +5,13 @@
     <title>Bootstrap Table Examples</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
     <!--<link rel="stylesheet"-->
     <!--href="http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">-->
-    </head>
+</head>
 <body>
 <div class="container-fluid">
     <table id="table"
@@ -54,9 +55,14 @@
         $('#table').bootstrapTable({
 //            getHeight(),
 //            searchAccentNeutralise: true,
-            columns: [{
+            columns: [
+                {
+                    field: 'id',
+                    title: 'id',
+                    visible: true
+                }, {
                 field: 'job_id',
-                title: 'Id',
+                title: 'job_id',
                 visible: false
             }, {
                 field: 'url',
@@ -76,7 +82,7 @@
                 sortable: true
             }, {
                 field: 'title',
-                title: 'Title',
+                title: 'title',
                 filterControl: 'input'
             }, {
                 field: 'description',
@@ -118,8 +124,9 @@
                 editable: {
                     type: 'text',
                     title: 'Enter username',
-                    success: function(response, newValue) {
-                        console.log('newValue');
+                    pk: 'id',
+                    success: function (response, newValue) {
+                        console.log('newValue = ' + newValue);
                     }
                 }
 
@@ -145,13 +152,28 @@
     });
 
     $('#table').on('column-search.bs.table', function (field, text) {
-        console.log(field);
+        console.log(text);
     });
 
-    $('#table').on('load-success.bs.table', function (data) {
-        var z = $('#table').bootstrapTable('getData');
-        console.log(z);
-    });
+    //    $('#table').on('load-success.bs.table', function (data) {
+    //        var z = $('#table').bootstrapTable('getData');
+    //        console.log(z);
+    //    });
+
+//    $('#table').on('editable-init.bs.table', function () {
+//        console.log('editable');
+//    });
+
+//        $('#table').on('editable-save.bs.table', function (row, field, $element, oldValue) {
+//            console.log(row);
+//            console.log('field = ' + field);
+//            console.log('$element = ' + $element);
+//            console.log('oldValue = ' + oldValue);
+//        });
+
+//    $('#table').on('click-row.bs.table', function (row, $element) {
+//        console.log($element);
+//    });
 
 </script>
 </body>
