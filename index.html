@@ -5,6 +5,7 @@
     <title>Bootstrap Table Examples</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
     <!--<link rel="stylesheet"-->
@@ -13,7 +14,7 @@
 <body>
 <div class="container-fluid">
     <table id="table"
-           data-url="/search.php"
+           data-url="/get_data.php"
            data-search="true"
            data-cache="false"
            data-show-refresh="true"
@@ -27,6 +28,8 @@
            data-page-list="[7, 10, 20, 50, All]"
            data-filter-control="true"
            data-filter-show-clear="true"
+           data-editable="true"
+           data-search-accent-neutralise="true"
             >
     </table>
 </div>
@@ -40,6 +43,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/locales/bootstrap-datepicker.ru.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/accent-neutralise/bootstrap-table-accent-neutralise.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/editable/bootstrap-table-editable.min.js"></script>
 <script>
 
     $(function () {
@@ -47,7 +53,7 @@
 
         $('#table').bootstrapTable({
 //            getHeight(),
-
+//            searchAccentNeutralise: true,
             columns: [{
                 field: 'job_id',
                 title: 'Id',
@@ -63,11 +69,9 @@
                 filterDatepickerOptions: {
                     "autoclose": true,
                     "clearBtn": true,
-                    "multidate": true,
-                    "multidateSeparator": ", ",
                     "todayHighlight": true,
                     "language": "ru",
-                    "format": "dd-mm-yyyy"
+                    "format": "yyyy-mm-dd"
                 },
                 sortable: true
             }, {
@@ -108,6 +112,18 @@
                 field: 'skills',
                 title: 'skills',
                 filterControl: 'input'
+            }, {
+                field: 'rating',
+                title: 'rating',
+                editable: {
+                    type: 'text',
+                    title: 'Enter username',
+                    success: function(response, newValue) {
+                        console.log('newValue');
+                    }
+                }
+
+
             }]
         });
 

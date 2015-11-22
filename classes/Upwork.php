@@ -17,6 +17,7 @@ class Upwork
     public $engagement_weeks;
     public $contractor_tier;
     public $skills;
+    public $rating;
 
     public static function findAll($db)
     {
