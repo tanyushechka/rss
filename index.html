@@ -9,11 +9,17 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
-    <!--<link rel="stylesheet"-->
-    <!--href="http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">-->
+    <link rel="stylesheet" href="/bootstrap-rating.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/locale/bootstrap-table-ru-RU.min.js"></script>
+    <script src="/bootstrap-rating.min.js"></script>
 </head>
 <body>
-<div class="container-fluid">
+<div class="conteiner-fluid">
+    <input type="hidden" class="rating" value="0"/>
     <table id="table"
            data-url="/get_data.php"
            data-search="true"
@@ -34,10 +40,6 @@
             >
     </table>
 </div>
-<script src="http://yastatic.net/jquery/2.1.4/jquery.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/locale/bootstrap-table-ru-RU.min.js"></script>
 
 <!--<script src="http://rawgit.com/lukaskral/bootstrap-table/feature_lukaskral_bootstrap_table_filter_integration/src/bootstrap-table.js"></script>-->
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter/bootstrap-table-filter.min.js"></script>-->
@@ -47,91 +49,84 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/accent-neutralise/bootstrap-table-accent-neutralise.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/editable/bootstrap-table-editable.min.js"></script>
-<script>
 
+<script>
     $(function () {
 
 
         $('#table').bootstrapTable({
-//            getHeight(),
-//            searchAccentNeutralise: true,
             columns: [
                 {
                     field: 'id',
                     title: 'id',
-                    visible: true
-                }, {
-                field: 'job_id',
-                title: 'job_id',
-                visible: false
-            }, {
-                field: 'url',
-                title: 'url',
-                visible: false
-            }, {
-                field: 'created_at',
-                title: 'created_at',
-                filterControl: 'datepicker',
-                filterDatepickerOptions: {
-                    "autoclose": true,
-                    "clearBtn": true,
-                    "todayHighlight": true,
-                    "language": "ru",
-                    "format": "yyyy-mm-dd"
+                    visible: false
                 },
-                sortable: true
-            }, {
-                field: 'title',
-                title: 'title',
-                filterControl: 'input'
-            }, {
-                field: 'description',
-                title: 'description',
-                filterControl: 'input',
-                visible: false
-            }, {
-                field: 'type',
-                title: 'type',
-                filterControl: 'select',
-                sortable: true
-            }, {
-                field: 'budget',
-                title: 'budget',
-                filterControl: 'select',
-                filterStrictSearch: true,
-                sortable: true
-            }, {
-                field: 'engagement',
-                title: 'duration',
-                filterControl: 'input'
-            }, {
-                field: 'engagement_weeks',
-                title: 'workload',
-                filterControl: 'input'
-            }, {
-                field: 'contractor_tier',
-                title: 'tier',
-                filterControl: 'select',
-                sortable: true
+                {
+                    field: 'job_id',
+                    title: 'job_id',
+                    visible: false
+                }, {
+                    field: 'url',
+                    title: 'url',
+                    visible: false
+                }, {
+                    field: 'created_at',
+                    title: 'created_at',
+                    filterControl: 'datepicker',
+                    filterDatepickerOptions: {
+                        "autoclose": true,
+                        "clearBtn": true,
+                        "todayHighlight": true,
+                        "language": "ru",
+                        "format": "yyyy-mm-dd"
+                    },
+                    sortable: true
+                }, {
+                    field: 'title',
+                    title: 'title',
+                    filterControl: 'input'
+                }, {
+                    field: 'description',
+                    title: 'description',
+                    filterControl: 'input',
+                    visible: false
+                }, {
+                    field: 'type',
+                    title: 'type',
+                    filterControl: 'select',
+                    sortable: true
+                }, {
+                    field: 'budget',
+                    title: 'budget',
+                    filterControl: 'select',
+                    filterStrictSearch: true
+                }, {
+                    field: 'engagement',
+                    title: 'duration',
+                    filterControl: 'input'
+                }, {
+                    field: 'engagement_weeks',
+                    title: 'workload',
+                    filterControl: 'input'
+                }, {
+                    field: 'contractor_tier',
+                    title: 'tier',
+                    filterControl: 'select'
+                }, {
+                    field: 'skills',
+                    title: 'skills',
+                    filterControl: 'input'
+                }, {
+                    field: 'rating',
+                    title: 'rating',
+                    formatter: function (val) {
+                        return '<span><div class="rating-symbol" style="display: inline-block; position: relative;"><div class="rating-symbol-background glyphicon glyphicon-star-empty" style="visibility: visible;"></div><div class="rating-symbol-foreground" style="display: inline-block; position: absolute; overflow: hidden; left: 0px; right: 0px; width: 0%;"><span class="glyphicon glyphicon-star"></span></div></div><div class="rating-symbol" style="display: inline-block; position: relative;"><div class="rating-symbol-background glyphicon glyphicon-star-empty" style="visibility: visible;"></div><div class="rating-symbol-foreground" style="display: inline-block; position: absolute; overflow: hidden; left: 0px; right: 0px; width: 0px;"><span class="glyphicon glyphicon-star"></span></div></div><div class="rating-symbol" style="display: inline-block; position: relative;"><div class="rating-symbol-background glyphicon glyphicon-star-empty" style="visibility: visible;"></div><div class="rating-symbol-foreground" style="display: inline-block; position: absolute; overflow: hidden; left: 0px; right: 0px; width: 0px;"><span class="glyphicon glyphicon-star"></span></div></div><div class="rating-symbol" style="display: inline-block; position: relative;"><div class="rating-symbol-background glyphicon glyphicon-star-empty" style="visibility: visible;"></div><div class="rating-symbol-foreground" style="display: inline-block; position: absolute; overflow: hidden; left: 0px; right: 0px; width: 0px;"><span class="glyphicon glyphicon-star"></span></div></div><div class="rating-symbol" style="display: inline-block; position: relative;"><div class="rating-symbol-background glyphicon glyphicon-star-empty" style="visibility: visible;"></div><div class="rating-symbol-foreground" style="display: inline-block; position: absolute; overflow: hidden; left: 0px; right: 0px; width: 0px;"><span class="glyphicon glyphicon-star"></span></div></div></span>' +
+                                '<input type="hidden" class="rating" value="' + val + '"/>';
 
-            }, {
-                field: 'skills',
-                title: 'skills',
-                filterControl: 'input'
-            }, {
-                field: 'rating',
-                title: 'rating',
-                editable: {
-                    type: 'text',
-                    title: 'Enter username',
-                    pk: 'id',
-                    success: function (response, newValue) {
-                        console.log('newValue = ' + newValue);
                     }
-                }
 
 
-            }]
+                }]
         });
 
 
@@ -151,30 +146,34 @@
         $detail.html(row.description).css({'background-color': '#ff9', 'font-family': 'Calibri'});
     });
 
-    $('#table').on('column-search.bs.table', function (field, text) {
-        console.log(text);
-    });
+    //    $('#table').on('column-search.bs.table', function (field, text) {
+    //        console.log(text);
+    //    });
 
     //    $('#table').on('load-success.bs.table', function (data) {
     //        var z = $('#table').bootstrapTable('getData');
     //        console.log(z);
     //    });
 
-//    $('#table').on('editable-init.bs.table', function () {
-//        console.log('editable');
-//    });
+    //    $('#table').on('editable-init.bs.table', function () {
+    //        console.log('editable');
+    //    });
 
-//        $('#table').on('editable-save.bs.table', function (row, field, $element, oldValue) {
-//            console.log(row);
-//            console.log('field = ' + field);
-//            console.log('$element = ' + $element);
-//            console.log('oldValue = ' + oldValue);
-//        });
+    $('#table').on('editable-save.bs.table', function (row, field, $element, oldValue) {
+        console.log(row);
+        console.log('field = ' + field);
+        console.log($element);
+        $.post(
+                'post.php',
+                {pk: $element.id, name: field, value: $element[field]},
+                null,
+                'json'
+        );
+    });
 
-//    $('#table').on('click-row.bs.table', function (row, $element) {
-//        console.log($element);
-//    });
-
+    $('#table').on('click-row.bs.table', function () {
+        $('#table').find('input').addClass('rating');
+    });
 </script>
 </body>
 </html>
