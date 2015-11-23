@@ -9,16 +9,22 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
-    <link rel="stylesheet" href="/bootstrap-rating.css">
+    <link rel="stylesheet" href="/star-rating.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/locale/bootstrap-table-ru-RU.min.js"></script>
-    <script src="/bootstrap-rating.min.js"></script>
+    <!--<script src="/star-rating.min.js"></script>-->
+    <script src="/rating.js"></script>
 </head>
 <body>
 <div class="conteiner-fluid">
+    <table>
+        <tr><input type="hidden" class="rating" value="0"/>
+            <td></td>
+        </tr>
+    </table>
     <input type="hidden" class="rating" value="0"/>
     <table id="table"
            data-url="/get_data.php"
@@ -119,10 +125,16 @@
                 }, {
                     field: 'rating',
                     title: 'rating',
-                    formatter: function (val) {
-                        return '<span><div class="rating-symbol" style="display: inline-block; position: relative;"><div class="rating-symbol-background glyphicon glyphicon-star-empty" style="visibility: visible;"></div><div class="rating-symbol-foreground" style="display: inline-block; position: absolute; overflow: hidden; left: 0px; right: 0px; width: 0%;"><span class="glyphicon glyphicon-star"></span></div></div><div class="rating-symbol" style="display: inline-block; position: relative;"><div class="rating-symbol-background glyphicon glyphicon-star-empty" style="visibility: visible;"></div><div class="rating-symbol-foreground" style="display: inline-block; position: absolute; overflow: hidden; left: 0px; right: 0px; width: 0px;"><span class="glyphicon glyphicon-star"></span></div></div><div class="rating-symbol" style="display: inline-block; position: relative;"><div class="rating-symbol-background glyphicon glyphicon-star-empty" style="visibility: visible;"></div><div class="rating-symbol-foreground" style="display: inline-block; position: absolute; overflow: hidden; left: 0px; right: 0px; width: 0px;"><span class="glyphicon glyphicon-star"></span></div></div><div class="rating-symbol" style="display: inline-block; position: relative;"><div class="rating-symbol-background glyphicon glyphicon-star-empty" style="visibility: visible;"></div><div class="rating-symbol-foreground" style="display: inline-block; position: absolute; overflow: hidden; left: 0px; right: 0px; width: 0px;"><span class="glyphicon glyphicon-star"></span></div></div><div class="rating-symbol" style="display: inline-block; position: relative;"><div class="rating-symbol-background glyphicon glyphicon-star-empty" style="visibility: visible;"></div><div class="rating-symbol-foreground" style="display: inline-block; position: absolute; overflow: hidden; left: 0px; right: 0px; width: 0px;"><span class="glyphicon glyphicon-star"></span></div></div></span>' +
-                                '<input type="hidden" class="rating" value="' + val + '"/>';
-
+                    width: 300,
+                    formatter: function (val, row) {
+                        rating();
+                        var ratingId = '#rating'+row.id;
+                        $(ratingId).on('rating.change', function(event, value) {
+                            console.log(row.id);
+                            console.log(value);
+                        });
+                        return '<input id="rating'+row.id+'" class="rating" value="'+val+'" data-show-caption="false"' +
+                                'data-size="xs"/>';
                     }
 
 
@@ -174,6 +186,12 @@
     $('#table').on('click-row.bs.table', function () {
         $('#table').find('input').addClass('rating');
     });
+
+    $('.rating').on('rating.change', function(event, value, caption) {
+        console.log(value);
+        console.log(caption);
+    });
+
 </script>
 </body>
 </html>
