@@ -12,23 +12,19 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/5.2.5/css/bootstrap-slider.min.css"
           rel="stylesheet">
     <link href="/star-rating.min.css" rel="stylesheet">
-    <style>
-        #sliderBudget .slider-selection {
-            background: #BABABA;
-        }
-    </style>
+    <link href="/style.css" rel="stylesheet">
 </head>
 <body>
 <div class="conteiner-fluid">
-    <input type="hidden" class="rating" value="0"/>
+    <!--<input type="hidden" class="rating" value="0"/>-->
 
     <div id="toolbar">
 
-        <div>
-            <b>$ 0</b>
-            <input id="budget" type="text" style="width: 1000px;"/>
-            <b>$ 10000</b>
-        </div>
+
+
+
+
+
 
         <div id="reportrange" class="pull-right">
             <span></span>&nbsp;
@@ -36,14 +32,33 @@
             <b class="caret"></b>
         </div>
 
+
         <div>
             <label for="jobType">Job type</label>
-            <select id="jobType" class="selectpicker" data-width="100px">
+            <select id="jobType" class="selectpicker" data-width="80px">
                 <option>*</option>
                 <option>Fixed</option>
                 <option>Hourly</option>
             </select>
+
+            <label for="contractorTier">Contractor tier</label>
+            <select id="contractorTier" class="selectpicker" data-width="50px">
+                <option>*</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>8</option>
+            </select>
         </div>
+
+        <div>
+            <b>$ 0</b>
+            <input id="budget" type="text" style="width: 700px;"/>
+            <b>$ 10000</b>
+        </div>
+
 
     </div>
 
@@ -93,7 +108,9 @@
             tooltip: 'always',
 //            tooltip_split: true,
             step: 1,
-            scale: 'logarithmic'
+            scale: 'logarithmic',
+            handle: 'triangle',
+            tooltip_position: 'bottom'
         });
 
         function drawDate(start, end) {

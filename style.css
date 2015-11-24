@@ -1,0 +1,19 @@
+body{
+    margin: 20px;
+}
+#reportrange{
+    width: 360px;
+    cursor: pointer;
+    padding: 0 0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+text-align: center;
+}
+
+#sliderBudget .slider-selection {
+    background: #BABABA;
+}
+
+#toolbar{
+    margin-bottom: 20px;
+}
