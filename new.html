@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Bootstrap Table Examples</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
     <link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css"
           rel="stylesheet">
@@ -51,9 +52,12 @@
                 <option>5</option>
                 <option>8</option>
             </select>
+
+
+            <button class="btn btn-default " type="button"><i class="glyphicon glyphicon-trash icon-share"></i> </button>
         </div>
 
-        <div>
+        <div id="div-budget">
             <b>$ 0</b>
             <input id="budget" type="text" style="width: 700px;"/>
             <b>$ 10000</b>
@@ -110,7 +114,14 @@
             step: 1,
             scale: 'logarithmic',
             handle: 'triangle',
-            tooltip_position: 'bottom'
+            tooltip_position: 'top'
+        });
+
+        $("#button-with-icon-fa").button({
+            icons: {
+                primary: "icon-lock"
+            },
+            text: false
         });
 
         function drawDate(start, end) {
@@ -160,7 +171,8 @@
             autoUpdateInput: true,
             linkedCalendars: false,
             timePicker: true,
-            timePicker24Hour: true
+            timePicker24Hour: true,
+            opens: 'left'
         }, drawDate);
 
         $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
