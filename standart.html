@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap Table Examples</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css"
+          rel="stylesheet">
+    <link href="http://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/5.2.5/css/bootstrap-slider.min.css"
+          rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rating/1.3.1/bootstrap-rating.min.css" rel="stylesheet">
+    <link href="/style.css" rel="stylesheet">
+</head>
+<body>
+<div class="conteiner-fluid">
+    <!--<input type="hidden" class="rating" value="0"/>-->
+
+    <!--<div id="toolbar">-->
+
+
+
+
+
+
+
+        <!--<div id="reportrange" class="pull-right">-->
+            <!--<span></span>&nbsp;-->
+            <!--<i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;-->
+            <!--<b class="caret"></b>-->
+        <!--</div>-->
+
+
+        <!--<div>-->
+            <!--<label for="jobType">Job type</label>-->
+            <!--<select id="jobType" class="selectpicker" data-width="80px">-->
+                <!--<option>*</option>-->
+                <!--<option>Fixed</option>-->
+                <!--<option>Hourly</option>-->
+            <!--</select>-->
+
+            <!--<label for="contractorTier">Contractor tier</label>-->
+            <!--<select id="contractorTier" class="selectpicker" data-width="50px">-->
+                <!--<option>*</option>-->
+                <!--<option>1</option>-->
+                <!--<option>2</option>-->
+                <!--<option>3</option>-->
+                <!--<option>4</option>-->
+                <!--<option>5</option>-->
+                <!--<option>8</option>-->
+            <!--</select>-->
+
+
+            <!--<button class="btn btn-default " type="button"><i class="glyphicon glyphicon-trash icon-share"></i> </button>-->
+        <!--</div>-->
+
+        <!--<div id="div-budget">-->
+            <!--<b>$ 0</b>-->
+            <!--<input id="budget" type="text" style="width: 700px;"/>-->
+            <!--<b>$ 10000</b>-->
+        <!--</div>-->
+
+
+    <!--</div>-->
+
+
+    <table id="table" data-url="/get_data.php"
+           data-search="true"
+           data-cache="false"
+           data-show-refresh="true"
+           data-show-toggle="true"
+           data-show-columns="true"
+           data-detail-view="true"
+           data-pagination="true"
+           data-striped="true"
+           data-locale="ru-RU"
+           data-page-size="7"
+           data-page-list="[7, 10, 20, 50, All]"
+           data-filter-control="true"
+           data-filter-show-clear="true"
+           data-toolbar="#toolbar"
+            >
+    </table>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/locale/bootstrap-table-ru-RU.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/locale/ru.js"></script>
+<script src="http://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/locales/bootstrap-datepicker.ru.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/js/i18n/defaults-ru_RU.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/5.2.5/bootstrap-slider.min.js"></script>
+<script src="/rating-standart.js"></script>
+<script>
+    $(function () {
+//        $("#budget").slider({
+//            id: "sliderBudget",
+//            min: 0,
+//            max: 10000,
+//            range: true,
+//            value: [100, 500],
+//            tooltip: 'always',
+//            step: 1,
+//            scale: 'logarithmic',
+//            handle: 'triangle',
+//            tooltip_position: 'top'
+//        });
+//
+//
+//        function drawDate(start, end) {
+//            $('#reportrange span').html(start.format('lll') + ' - ' + end.format('lll'));
+//        }
+//
+//        drawDate(moment().subtract(30, 'minutes'), moment());
+//
+//        $('#reportrange').daterangepicker({
+//            ranges: {
+//                'Сегодня': [moment(), moment()],
+//                'Вчера': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+//                'Последние 7 дней': [moment().subtract(6, 'days'), moment()],
+//                'Последние 30 дней': [moment().subtract(29, 'days'), moment()],
+//                'Текущий месяц': [moment().startOf('month'), moment().endOf('month')],
+//                'Предыдущий месяц': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+//            },
+//            locale: {
+//                "format": "LL",
+//                "customRangeLabel": "Выбор интервала",
+//                "daysOfWeek": [
+//                    "Вс",
+//                    "Пн",
+//                    "Вт",
+//                    "Ср",
+//                    "Чт",
+//                    "Пт",
+//                    "Сб"
+//                ],
+//                "monthNames": [
+//                    "Январь",
+//                    "Февраль",
+//                    "Март",
+//                    "Апрель",
+//                    "Май",
+//                    "Июнь",
+//                    "Июль",
+//                    "Август",
+//                    "Сентябрь",
+//                    "Октябрь",
+//                    "Ноябрь",
+//                    "Декабрь"
+//                ],
+//                "firstDay": 1
+//            },
+//            autoApply: true,
+//            autoUpdateInput: true,
+//            linkedCalendars: false,
+//            timePicker: true,
+//            timePicker24Hour: true,
+//            opens: 'left'
+//        }, drawDate);
+//
+//        $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+//            var intervalStart = +picker.startDate / 1000;
+//            var intervalEnd = Math.round(+picker.endDate / 1000);
+//        });
+//
+//        window.onresize = function () {
+//            var arr = $('#reportrange span').html().split(' - ');
+//            var intervalStart = moment(arr[0], 'll').format('X');
+//            var intervalEnd = moment(arr[1], 'll').add(1, 'days').format('X');
+//        };
+
+        $('#table').bootstrapTable({
+            columns: [
+                {
+                    field: 'id',
+                    title: 'id',
+                    visible: false
+                },
+                {
+                    field: 'job_id',
+                    title: 'job_id',
+                    visible: false
+                }, {
+                    field: 'url',
+                    title: 'url',
+                    visible: false
+                }, {
+                    field: 'created_at',
+                    title: 'created_at',
+                    filterControl: 'datepicker',
+                    filterDatepickerOptions: {
+                        "autoclose": true,
+                        "clearBtn": true,
+                        "todayHighlight": true,
+                        "language": "ru",
+                        "format": "yyyy-mm-dd"
+                    },
+                    sortable: true
+                }, {
+                    field: 'title',
+                    title: 'title',
+                    filterControl: 'input'
+                }, {
+                    field: 'description',
+                    title: 'description',
+                    filterControl: 'input',
+                    visible: false
+                }, {
+                    field: 'type',
+                    title: 'type',
+                    filterControl: 'select',
+                    sortable: true
+                }, {
+                    field: 'budget',
+                    title: 'budget',
+                    filterControl: 'select',
+                    filterStrictSearch: true
+                }, {
+                    field: 'engagement',
+                    title: 'duration',
+                    filterControl: 'input'
+                }, {
+                    field: 'engagement_weeks',
+                    title: 'workload',
+                    filterControl: 'input'
+                }, {
+                    field: 'contractor_tier',
+                    title: 'tier',
+                    filterControl: 'select',
+                    sortable: true
+                }, {
+                    field: 'skills',
+                    title: 'skills',
+                    filterControl: 'input'
+                }, {
+                    field: 'rating',
+                    title: 'rating',
+                    filterControl: 'input',
+                    sortable: true,
+                    width: 300,
+                    formatter: function (val, row) {
+                        var ratingId = '#rating' + row.id;
+                        $(ratingId).on('rating.change', function (event, value) {
+                            console.log(row.id);
+                            console.log(value);
+                        });
+                        return '<input id="rating' + row.id + '" type="hidden" class="rating" value="' + val + '" data-show-caption="false"' +
+                                'data-size="xs"/>';
+                    }
+                }]
+        });
+    });
+
+    $('#table').on('expand-row.bs.table', function (e, index, row, $detail) {
+        $detail.html(row.description).css({'background-color': '#ff9', 'font-family': 'Calibri'});
+    });
+
+
+    $('#table').on('post-body.bs.table', function () {
+        ratingStandart();
+    });
+
+
+    $('.rating').on('rating.change', function (event, value, caption) {
+        console.log(value);
+        console.log(caption);
+    });
+
+
+</script>
+</body>
+</html>
